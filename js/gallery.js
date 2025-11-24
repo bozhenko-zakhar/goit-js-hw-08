@@ -65,9 +65,8 @@ const images = [
 ];
 
 const gallery = document.querySelector(".gallery");
-
-for (const image of images) {
-	gallery.insertAdjacentHTML("beforeend", `
+const galleryImages = images.map(image => {
+	return (`
 		<li class="gallery-item">
 			<a class="gallery-link" href=${image.original}>
 				<img
@@ -79,7 +78,9 @@ for (const image of images) {
 			</a>
 		</li>
 	`)
-}
+}).join("");
+
+gallery.insertAdjacentHTML("beforeend", galleryImages);
 
 gallery.addEventListener("click", event => {
 	event.preventDefault();
@@ -89,7 +90,7 @@ gallery.addEventListener("click", event => {
 	if (currentImage.nodeName !== "IMG") return
 
 	const instance = basicLightbox.create(
-		`<img src=${currentImage.dataset.source} alt>`
+		`<img src=${currentImage.dataset.source} alt="${currentImage.alt}">`
 	)
 
 	instance.show();
